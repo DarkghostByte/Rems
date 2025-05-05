@@ -4,16 +4,14 @@ import IndexComponent  from '@/views/auth/IndexComponent.vue'
 import LoginComponent  from '@/views/auth/LoginComponent.vue'
 
 const adminRoutes = [
-    /*
-    {path: 'home', component: () => import('@/views/admin/home/AdminHomeComponent.vue')},
-    {path: 'users', component: () => import('@/views/admin/users/AdminUsersComponent.vue')},
-    {path: 'products', component: () => import('@/views/admin/products/AdminProductsComponent.vue')},
-    {path: 'services', component: () => import('@/views/admin/services/AdminServicesComponent.vue')},
-    {path: 'accesorios', component: () => import('@/views/admin/accesorios/AdminAccesoriosComponent.vue')},
-    {path: 'checkout', component: () => import('@/views/admin/products/CheckoutComponent.vue')},
-    {path: 'view', component: () => import('@/views/admin/products/ProductViewComponent.vue')},
-    {path: 'view-naked', component: () => import('@/views/admin/products/ProductViewNakedComponent.vue')},
-*/
+    {path: 'home', component: () => import('@/views/screens/HomeComponent.vue')},
+    //{path: 'users', component: () => import('@/views/admin/users/AdminUsersComponent.vue')},
+    //{path: 'products', component: () => import('@/views/admin/products/AdminProductsComponent.vue')},
+    //{path: 'services', component: () => import('@/views/admin/services/AdminServicesComponent.vue')},
+    //{path: 'accesorios', component: () => import('@/views/admin/accesorios/AdminAccesoriosComponent.vue')},
+    //{path: 'checkout', component: () => import('@/views/admin/products/CheckoutComponent.vue')},
+    //{path: 'view', component: () => import('@/views/admin/products/ProductViewComponent.vue')},
+    //{path: 'view-naked', component: () => import('@/views/admin/products/ProductViewNakedComponent.vue')},
 
 ]
 

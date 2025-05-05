@@ -1,4 +1,4 @@
-<template>
+<template>      
     <div class="fondoIndex min-h-screen flex justify-center items-center p-6">
         <div
             class="bg-[#ffffff] flex flex-col justify-center items-center md:flex-row w-full max-w-md lg:max-w-max h-auto rounded-xl overflow-hidden shadow-lg">
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'LoginComponent',
     data: () => ({
@@ -39,6 +40,9 @@ export default {
         formRef: undefined,
         url: process.env.VUE_APP_ROOT_ASSETS,
     }),
+    methods: {
+    
+  },
 };
 </script>
 
