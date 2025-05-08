@@ -1,5 +1,7 @@
 <template>
-  <header class="">
+  <header class=""
+    :class="{ 'header-hidden': isHeaderHidden }"
+    style="position: sticky; top: 0; transition: top 0.8s;">
     <div class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-12 bgHeader1">
       <div class="flex items-center ">
         <div class="flex justify-center items-center w-8 h-8 ">
@@ -29,7 +31,7 @@
       </div>
     </div>
 
-    <div class="flex items-center h-20 px-4 sm:px-6 lg:px-8 bgHeader">
+    <div class="flex items-center h-20 px-4 sm:px-6 lg:px-8 bgHeader shadow-md">
       <router-link to="/auth/index" class="inline-flex items-center justify-center h-20 mr-4 sm:mr-6">
         <img src="https://remslogistics.com/wp-content/uploads/2024/06/logo-ingles-espanol-300x108.png"
           class="flex items-center justify-center h-10 sm:h-10 md:h-16 w-36 sm:w-36 md:w-44" />
@@ -42,43 +44,43 @@
           </button>
           <div id="menuDropdown" class="absolute top-10 bg-white shadow-md hidden w-52 rounded-md">
             <ul class="flex flex-col items-center py-4">
-              <li><a href="#" class="text-neutral-700 text-md block py-2" data-i18n="home">Inicio</a></li>
-              <li><a href="#" class="text-neutral-700 text-md block py-2" data-i18n="aboutUs">Sobre Nosotros</a></li>
-              <li><a href="#" class="text-neutral-700 text-md block py-2" data-i18n="divisions">Divisiones</a></li>
-              <li><a href="#" class="text-neutral-700 text-md block py-2" data-i18n="services">Servicios</a></li>
-              <li><a href="#" class="text-neutral-700 text-md block py-2" data-i18n="clients">Clientes</a></li>
-              <li><a href="#" class="text-neutral-700 text-md block py-2" data-i18n="contacts">Contactos</a></li>
+              <li><router-link to="/admin/home" class="text-neutral-700 text-md block py-2" data-i18n="home" @click="closeMobileMenu">Inicio</router-link></li>
+              <li><router-link to="/admin/divisions" class="text-neutral-700 text-md block py-2" data-i18n="aboutUs" @click="closeMobileMenu">Sobre Nosotros</router-link></li>
+              <li><a href="#" class="text-neutral-700 text-md block py-2" data-i18n="divisions" @click="closeMobileMenu">Divisiones</a></li>
+              <li><a href="#" class="text-neutral-700 text-md block py-2" data-i18n="services" @click="closeMobileMenu">Servicios</a></li>
+              <li><a href="#" class="text-neutral-700 text-md block py-2" data-i18n="clients" @click="closeMobileMenu">Clientes</a></li>
+              <li><a href="#" class="text-neutral-700 text-md block py-2" data-i18n="contacts" @click="closeMobileMenu">Contactos</a></li>
             </ul>
           </div>
         </nav>
         <nav class="hidden sm:block">
           <ul class="flex space-x-4 lg:space-x-10">
             <li>
-              <a href="#"
+              <router-link to="/admin/home"
                 class="text-neutral-700 hover:text-amber-500 font-bold text-md md:text-sm lg:text-xl relative group">
                 <span data-i18n="home">Inicio</span>
                 <span
                   class="absolute left-0 bottom-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              </router-link>
             </li>
             <li>
-              <a href="#"
+              <router-link to="/admin/divisions"
                 class="text-neutral-700 hover:text-amber-500 font-bold text-md md:text-sm lg:text-xl relative group">
                 <span data-i18n="aboutUs">Sobre Nosotros</span>
                 <span
                   class="absolute left-0 bottom-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              </router-link>
             </li>
             <li class="relative group">
-              <a href="#"
+              <a href="#" id="divisionsBtn"
                 class="items-center text-neutral-700 hover:text-amber-500 font-bold text-md md:text-sm lg:text-xl relative flex">
                 <span data-i18n="divisions">Divisiones</span>
                 <i class="fa-solid fa-sort-down text-sm ml-1"></i>
                 <span
                   class="absolute left-0 bottom-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <ul
-                class="absolute top-full left-0 bg-white shadow-md rounded-md p-2 space-y-1 hidden group-hover:block w-52">
+              <ul id="divisionsSubMenu"
+                class="absolute top-full left-0 bg-white shadow-md rounded-md p-2 space-y-1 hidden group-hover:block w-80">
                 <li class="relative group-cg"> <a href="#"
                     class="text-neutral-700 text-lg block py-1 hover:text-amber-500 flex justify-between items-center">
                     <span data-i18n="logistics3pl">3PL Logistica</span>
@@ -169,123 +171,182 @@
 </template>
 
 <script>
-import { useStore } from 'vuex';
-import { ref, onMounted, onUnmounted } from 'vue';
+import { useStore } from "vuex";
+import { ref, onMounted, onUnmounted } from "vue";
 
 export default {
-  name: 'AdminHeaderComponent',
+  name: "AdminHeaderComponent",
   data() {
     return {
       url: process.env.VUE_APP_ROOT_ASSETS,
       translations: {
         es: {
-          contactUs: '¿Requieres consulta? Contactanos',
-          home: 'Inicio',
-          aboutUs: 'Sobre Nosotros',
-          divisions: 'Divisiones',
-          services: 'Servicios',
-          clients: 'Clientes',
-          contacts: 'Contactos',
-          logistics3pl: '3PL Logistica',
-          douglasPort: 'REMS Port of Dougla and Arizona',
-          pasoJuarez: 'Paso, TX / Juarez, Chih',
-          hermosillo: 'Hermosillo, Sonora',
-          transport: 'Transporte',
-          railwayEngineering: 'Ingeniería ferroviaria',
-          warehousing: 'Almacenamiento',
-          doortoDoor: 'Puerta-a-Puerta',
-          crossborder: 'Cruzar la frontera',
-          crossdockingandTransshipment: 'Muelle cruzado y Transbordo',
-          freightTransportation: 'Transporte de mercancías',
-          drayageandLastMileService: 'Servicio de Acarreo y Última Milla',
-          roadTransportation: 'Transporte Terrestre',
+          contactUs: "¿Requieres consulta? Contactanos",
+          home: "Inicio",
+          aboutUs: "Sobre Nosotros",
+          divisions: "Divisiones",
+          services: "Servicios",
+          clients: "Clientes",
+          contacts: "Contactos",
+          logistics3pl: "3PL Logistica",
+          douglasPort: "REMS Port of Dougla and Arizona",
+          pasoJuarez: "Paso, TX / Juarez, Chih",
+          hermosillo: "Hermosillo, Sonora",
+          transport: "Transporte",
+          railwayEngineering: "Ingeniería ferroviaria",
+          warehousing: "Almacenamiento",
+          doortoDoor: "Puerta-a-Puerta",
+          crossborder: "Cruzar la frontera",
+          crossdockingandTransshipment: "Muelle cruzado y Transbordo",
+          freightTransportation: "Transporte de mercancías",
+          drayageandLastMileService: "Servicio de Acarreo y Última Milla",
+          roadTransportation: "Transporte Terrestre",
+          homeHeroText: "Mejorando su Logística en Ambos Lados de la Frontera",
+          divisionsHeroText: "Nuevo texto",
+          homeText1: "Soluciones Logísticas a la Medida",
+          homeText2: "Que Traen Su Éxito Global",
         },
         en: {
-          contactUs: 'Do you require a consultation? Contact us',
-          home: 'Home',
-          aboutUs: 'About Us',
-          divisions: 'Divisions',
-          services: 'Services',
-          clients: 'Clients',
-          contacts: 'Contacts',
-          logistics3pl: '3PL Logistics',
-          douglasPort: 'REMS Port of Douglas and Arizona',
-          pasoJuarez: 'El Paso, TX / Juarez, Chih',
-          hermosillo: 'Hermosillo, Sonora',
-          transport: 'Transportation',
-          railwayEngineering: 'Railway Engineering',
-          warehousing: 'Warehousing',
-          doortoDoor: 'Door-to-Door',
-          crossborder: 'Cross Border',
-          crossdockingandTransshipment: 'Cross docking and Transshipment',
-          freightTransportation: 'Freight Transportation',
-          drayageandLastMileService: 'Drayage and Last Mile Service',
-          roadTransportation: 'Road Transportation',
+          contactUs: "Do you require a consultation? Contact us",
+          home: "Home",
+          aboutUs: "About Us",
+          divisions: "Divisions",
+          services: "Services",
+          clients: "Clients",
+          contacts: "Contacts",
+          logistics3pl: "3PL Logistics",
+          douglasPort: "REMS Port of Douglas and Arizona",
+          pasoJuarez: "El Paso, TX / Juarez, Chih",
+          hermosillo: "Hermosillo, Sonora",
+          transport: "Transportation",
+          railwayEngineering: "Railway Engineering",
+          warehousing: "Warehousing",
+          doortoDoor: "Door-to-Door",
+          crossborder: "Cross Border",
+          crossdockingandTransshipment: "Cross docking and Transshipment",
+          freightTransportation: "Freight Transportation",
+          drayageandLastMileService: "Drayage and Last Mile Service",
+          roadTransportation: "Road Transportation",
+          homeHeroText: "Improving Your Logistics on Both Sides of the Border",
+          divisionsHeroText: "New text",
+          homeText1: "Tailored Logistics Solutions",
+          homeText2: "That Bring Your Global Success",
         },
       },
-      currentLanguage: 'es', // Idioma por defecto
+      currentLanguage: "es", // Idioma por defecto
     };
   },
   mounted() {
-    const menuBtn = document.getElementById('menuBtn');
-    const menuDropdown = document.getElementById('menuDropdown');
-    const divisionsBtn = document.getElementById('divisionsBtn');
-    const divisionsSubMenu = document.getElementById('divisionsSubMenu');
+    const menuBtn = document.getElementById("menuBtn");
+    const menuDropdown = document.getElementById("menuDropdown");
+    const mobileDivisionsParent = document.getElementById("mobileDivisionsParent");
+    const mobileDivisionsSubMenu = document.getElementById("mobileDivisionsSubMenu");
+    const divisionsBtn = document.getElementById("divisionsBtn");
+    const divisionsSubMenu = document.getElementById("divisionsSubMenu");
+    const mobileSubMenuItems = mobileDivisionsSubMenu ? mobileDivisionsSubMenu.querySelectorAll('a') : [];
 
     if (menuBtn && menuDropdown) {
-      menuBtn.addEventListener('click', () => {
-        menuDropdown.classList.toggle('hidden');
+      menuBtn.addEventListener("click", () => {
+        menuDropdown.classList.toggle("hidden");
+      });
+    }
+
+    if (mobileDivisionsParent && mobileDivisionsSubMenu) {
+      mobileDivisionsParent.addEventListener("click", (event) => {
+        event.preventDefault(); // Evitar que el enlace padre navegue
+        mobileDivisionsSubMenu.classList.toggle("hidden");
+      });
+
+      mobileSubMenuItems.forEach(item => {
+        item.addEventListener("click", () => {
+          const menuDropdown = document.getElementById("menuDropdown");
+          if (menuDropdown && !menuDropdown.classList.contains('hidden')) {
+            menuDropdown.classList.add("hidden");
+          }
+          const mobileDivisionsSubMenu = document.getElementById("mobileDivisionsSubMenu");
+          if (mobileDivisionsSubMenu && !mobileDivisionsSubMenu.classList.contains('hidden')) {
+            mobileDivisionsSubMenu.classList.add("hidden");
+          }
+        });
       });
     }
 
     if (divisionsBtn && divisionsSubMenu) {
-      divisionsBtn.addEventListener('click', () => {
-        divisionsSubMenu.classList.toggle('hidden');
+      divisionsBtn.addEventListener("click", (event) => {
+        event.preventDefault(); // Evitar que el enlace padre navegue
+        divisionsSubMenu.classList.toggle("hidden");
       });
     }
+
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-    translateToSpanish() {
-      this.currentLanguage = 'es';
-      this.applyTranslations();
-    },
-    translateToEnglish() {
-      this.currentLanguage = 'en';
-      this.applyTranslations();
-    },
-    applyTranslations() {
-      const elements = document.querySelectorAll('[data-i18n]');
-      elements.forEach((el) => {
-        const key = el.getAttribute('data-i18n');
-        if (this.translations[this.currentLanguage] && this.translations[this.currentLanguage][key]) {
-          el.textContent = this.translations[this.currentLanguage][key];
-        }
-      });
+  translateToSpanish() {
+    this.currentLanguage = "es";
+    this.applyTranslations();
+    this.$emit('apply-translations', { currentLanguage: this.currentLanguage, translations: this.translations }); // Emitir evento
+  },
+  translateToEnglish() {
+    this.currentLanguage = "en";
+    this.applyTranslations();
+    this.$emit('apply-translations', { currentLanguage: this.currentLanguage, translations: this.translations }); // Emitir evento
+  },
+  applyTranslations() {
+    const elements = document.querySelectorAll("[data-i18n]");
+    elements.forEach((el) => {
+      const key = el.getAttribute("data-i18n");
+      if (
+        this.translations[this.currentLanguage] &&
+        this.translations[this.currentLanguage][key]
+      ) {
+        el.textContent = this.translations[this.currentLanguage][key];
+      }
+    });
+  },
+  handleScroll() {
+    const scrollPosition = window.scrollY;
+    this.isHeaderHidden = scrollPosition > 400;
+  },
+  
+  closeMobileMenu() {
+      const menuDropdown = document.getElementById("menuDropdown");
+      if (menuDropdown && !menuDropdown.classList.contains('hidden')) {
+        menuDropdown.classList.add("hidden");
+      }
+      const mobileDivisionsSubMenu = document.getElementById("mobileDivisionsSubMenu");
+      if (mobileDivisionsSubMenu && !mobileDivisionsSubMenu.classList.contains('hidden')) {
+        mobileDivisionsSubMenu.classList.add("hidden");
+      }
     },
   },
   setup() {
     const store = useStore();
     const isMobile = ref(window.innerWidth < 768);
+    const isHeaderHidden = ref(false);
 
     const handleResize = () => {
       isMobile.value = window.innerWidth < 768;
     };
 
     onMounted(() => {
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
     });
 
     onUnmounted(() => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     });
 
     const toggleAside = () => {
-      store.commit('setAsideOpen', !store.state.isAsideOpen);
+      store.commit("setAsideOpen", !store.state.isAsideOpen);
     };
 
     return {
       isMobile,
       toggleAside,
+      isHeaderHidden,
     };
   },
 };
@@ -308,5 +369,13 @@ export default {
 
 .group-cg:hover .group-cg-hover\:block {
   display: block;
+}
+
+header {
+  top: 0 !important; /* Esto sobreescribiría el top: -100px; */
+}
+
+.header-hidden {
+  top: -100px; /* Hide the header */
 }
 </style>

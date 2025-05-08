@@ -5,6 +5,7 @@ import LoginComponent  from '@/views/auth/LoginComponent.vue'
 
 const adminRoutes = [
     {path: 'home', component: () => import('@/views/screens/HomeComponent.vue')},
+    {path: 'divisions', component: () => import('@/views/screens/DivisionsComponent.vue')},
     //{path: 'users', component: () => import('@/views/admin/users/AdminUsersComponent.vue')},
     //{path: 'products', component: () => import('@/views/admin/products/AdminProductsComponent.vue')},
     //{path: 'services', component: () => import('@/views/admin/services/AdminServicesComponent.vue')},
